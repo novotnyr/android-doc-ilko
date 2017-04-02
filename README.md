@@ -1,5 +1,5 @@
 O aplikácii Doc Iľko
-===
+====================
 Vytvorme aplikáciu na zistenie teploty v konkrétnom meste. Podporujme veľké zariadenia.
 
 *	Pre veľké zariadenia zobrazme vľavo zoznam obcí a vpravo detailné informácie o teplote.
@@ -11,15 +11,15 @@ Vytvorme aplikáciu na zistenie teploty v konkrétnom meste. Podporujme veľké 
 1.	Vyrobíme verziu pre veľké zariadenia. Použijeme **statické fragmenty**.
 2.	Vyrobíme verziu pre malé zariadenia. Použijeme **dynamické fragmenty**.
 
-Verzia pre veľké zariadenia
-====
+Verzia pre veľké zariadenia (statické fragmenty)
+================================================
 
 1.	Vyrobíme hlavnú aktivitu, ktorá nebude robiť nič.
 2.	Vyrobíme postupne dva fragmenty: pre *master* (zoznam obcí) a *detail*.
 
 ## Master fragment
 
-*	Necháme si vyrobiť **Fragment** `MasterFragment`. Nenecháme vygenerovať žiadne *fragment factory methods* ani *interface callbacks*, pretože nás popletú a aj tak k nim prídeme neskôr
+Necháme si vyrobiť **Fragment** `MasterFragment`. Nenecháme vygenerovať žiadne *fragment factory methods* ani *interface callbacks*, pretože nás jednak popletú a jednak ich aj tak vytvoríme v neskorších fázach tejto kapitoly.
 
 ### Layout
 
@@ -51,9 +51,9 @@ Vlastnosti:
 
 ### Kód
 
-*	Fragment dedí od triedy `android.app.Fragment`. Android Studio môže nagenerovať kód, kde sa dedí od triedy z knižnice kompatibility `android.support.v4.app.Fragment`. V súčasnosti však už nemusíme podporovať Android 2.x, kde musíme fragmenty emulovať..
+*	Fragment dedí od triedy `android.app.Fragment`. Android Studio môže nagenerovať kód, kde sa dedí od triedy z knižnice kompatibility `android.support.v4.app.Fragment`. V súčasnosti však už nemusíme podporovať Android 2.x, kde musíme fragmenty emulovať.
 *	Fragment musí mať prázdny verejný konštruktor!
-	*	v Jave: ak trieda nemá uvedený žiadny konštruktor, kompilátor "domyslí" prázdny verejný konštruktor
+	*	v Jave: ak trieda nemá uvedený žiadny konštruktor, kompilátor "domyslí" prázdny verejný konštruktor.
 *	strom widgetov sa z layoutového XML vytvorí v metóde `onCreateView()`.
 *	na rozdiel od metódy `onCreate()` v aktivite musí metóda vo fragmente vracať výsledný objekt pre `View`
 
@@ -81,7 +81,7 @@ Layoutový súbor `fragment_detail.xml` bude obsahovať jeden vycentrovaný veľ
 	    android:textSize="36dp"
 	    />
 	    
-### Kód
+### Kód
 
 Podobne ako v prípade master fragmentu, začneme nafúknutím layoutu z XML a jeho navrátením v tvare `View` objektu
 
@@ -141,7 +141,7 @@ Koordinácia fragmentov
 
 Dohodnime komunikáciu a koordináciu medzi fragmentami:
 
-*	po kliknutí na zoznam obcí v master fragmente musíme zistiť vybranú obec
+*	po kliknutí na zoznam obcí v master fragmente musíme zistiť vybranú obec.
 *	tú musíme dopraviť do detailového fragmentu, ktorý zobrazí informácie
 
 ### Poslucháči cez interfejs
@@ -197,7 +197,7 @@ Komunikáciu vyriešme cez spoločný interfejs, a vysielača a prijímače.
 *	Aktivita bude počúvať na výber obcí v hlavnom fragmente
 	*	necháme ju implementovať `OnCityClickListener`
 	*	potrebujeme ju zaregistrovať v master fragmente ako poslucháča
-*	získanie objektu fragmentu sa vykonáva pomocou **Fragment Manager**a, ktorý spravuje všetky fragmenty v aktivite
+*	Získanie objektu fragmentu sa vykonáva pomocou **Fragment Manager**a, ktorý spravuje všetky fragmenty v aktivite
 	*	získame ho cez `getFragmentManager()`.
 	*	pozor! fragment nie je *view*, preto ho nezískavame cez `findViewById()`!
 
@@ -223,16 +223,16 @@ Výsledok:
 
 ### Prenos informácií do detailu
 
-*	detailový fragment je objekt, môže mať svoj setter
+Detailový fragment je objekt, ktorý môže mať svoj setter. Dodajme možnosť nastaviť teplotu, ktorá sa priamo prejaví v zmene na textovom políčku.
 
-		public class DetailFragment extends Fragment {
-			...
-		
-		    public void setTemperature(int temperature) {
-		        TextView textView = (TextView) getView().findViewById(R.id.temperatureTextView);
-		        textView.setText(Integer.toString(temperature));
-		    }
-			...
+	public class DetailFragment extends Fragment {
+		...
+	
+	    public void setTemperature(int temperature) {
+	        TextView textView = (TextView) getView().findViewById(R.id.temperatureTextView);
+	        textView.setText(Integer.toString(temperature));
+	    }
+		...
 		}
 
 
@@ -259,8 +259,8 @@ Výsledok:
 		}
 		    
 		    
-Verzia pre malé zariadenia
-=======
+Verzia pre malé zariadenia (dynamické fragmenty)
+================================================
 
 Malé zariadenia budú dynamicky prepínať dva fragmenty: detailový a masterový.
 
@@ -319,7 +319,7 @@ Prepínanie módov
 Správca fragmentov a transakcie
 -----------------------
 
-*	statické fragmenty uvádzané cez element `<fragment>` sú napevno "vyryté" a nedajú sa rozumne skrývať či zobrazovať
+*	statické fragmenty uvádzané cez element `<fragment>` sú napevno „vyryté“ a nedajú sa rozumne skrývať či zobrazovať
 *	namiesto toho máme **dynamické fragmenty**, ktoré sa dajú nahrádzať, skrývať, či zobrazovať
 *	spravovanie statických aj dynaických fragmentov má pod palcom **správca fragmentov** / **fragment manager**
 
@@ -425,7 +425,7 @@ Správca fragmentov a transakcie
 	        }
 	    }
 
-## História a tlačidlo "Späť"
+## História a tlačidlo „Späť“
 
 Ak sa prepneme z master fragmentu do detailového (výberom obce) a následne stlačíme tlačidlo "Späť", aplikácia sa ukončí.
 
