@@ -7,18 +7,22 @@ Vytvorme aplikáciu na zistenie teploty v konkrétnom meste. Podporujme veľké 
 
 
 ### Plán práce
-1.	Vyrobíme verziu pre veľké zariadenia. Použijeme **statické fragmenty**
+
+1.	Vyrobíme verziu pre veľké zariadenia. Použijeme **statické fragmenty**.
 2.	Vyrobíme verziu pre malé zariadenia. Použijeme **dynamické fragmenty**.
 
 Verzia pre veľké zariadenia
 ====
+
 1.	Vyrobíme hlavnú aktivitu, ktorá nebude robiť nič.
 2.	Vyrobíme postupne dva fragmenty: pre *master* (zoznam obcí) a *detail*.
 
 ## Master fragment
+
 *	Necháme si vyrobiť **Fragment** `MasterFragment`. Nenecháme vygenerovať žiadne *fragment factory methods* ani *interface callbacks*, pretože nás popletú a aj tak k nim prídeme neskôr
 
-### Layout
+### Layout
+
 Layout súbor `fragment_master.xml` bude obsahovať len jeden `ListView`:
 
 	<ListView
@@ -46,6 +50,7 @@ Vlastnosti:
 		    </array>
 
 ### Kód
+
 *	Fragment dedí od triedy `android.app.Fragment`. Android Studio môže nagenerovať kód, kde sa dedí od triedy z knižnice kompatibility `android.support.v4.app.Fragment`. V súčasnosti však už nemusíme podporovať Android 2.x, kde musíme fragmenty emulovať..
 *	Fragment musí mať prázdny verejný konštruktor!
 	*	v Jave: ak trieda nemá uvedený žiadny konštruktor, kompilátor "domyslí" prázdny verejný konštruktor
@@ -94,10 +99,11 @@ Vznikne layoutovací súbor s kvalifikátorom `w600dp-land`.
 V layoute aktivity pre dve zariadenia umiestnime dva statické fragmenty do lineárneho layoutu, ktorému nastavíme horizontálnu orientáciu. Fragmenty sa tak umiestnia vedľa seba.
 
 	<?xml version="1.0" encoding="utf-8"?>
-	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:orientation="horizontal" android:layout_width="match_parent"
+	<LinearLayout 
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:orientation="horizontal" 
+	    android:layout_width="match_parent"
 	    android:layout_height="match_parent">
-	
 	
 	    <fragment
 	        android:id="@+id/masterFragment"
@@ -255,6 +261,7 @@ Výsledok:
 		    
 Verzia pre malé zariadenia
 =======
+
 Malé zariadenia budú dynamicky prepínať dva fragmenty: detailový a masterový.
 
 *	Otvoríme layout pre malé zariadenia (ide o štandardný layout hlavnej aktivity)
@@ -311,11 +318,13 @@ Prepínanie módov
 
 Správca fragmentov a transakcie
 -----------------------
+
 *	statické fragmenty uvádzané cez element `<fragment>` sú napevno "vyryté" a nedajú sa rozumne skrývať či zobrazovať
 *	namiesto toho máme **dynamické fragmenty**, ktoré sa dajú nahrádzať, skrývať, či zobrazovať
 *	spravovanie statických aj dynaických fragmentov má pod palcom **správca fragmentov** / **fragment manager**
 
 ### Transakcie
+
 *	nahrádzanie fragmentov je zložitá operácia
 	*	vyžaduje modifikáciu stromu widgetov
 *	musí bežať v rámci **transakcie**
@@ -325,6 +334,7 @@ Správca fragmentov a transakcie
 	*	výmena fragmentov musí prejsť celá alebo sa zrušiť, inak by sme mali nekonzistentný strom widgetov
 
 ### Zobrazenie master fragmentu v transakcii
+
 *	Po štarte aktivity chceme zobraziť hlavný master fragment. 
 *	Prázdny layout v aktivite nahradíme layoutom master fragmentu
 *	Doplňme chýbajúci kód:
@@ -351,6 +361,7 @@ Správca fragmentov a transakcie
 	
 	
 ### Zobrazenie detailového fragmentu v transakcii
+
 *	Prepnutie do detailového fragmentu potrebuje niekoľko úprav.
 	*	Fragment detailu potrebuje pri vytvorení vedieť teplotu, ktorú zobrazí.
 	*	Pri statických fragmentoch sme to robili cez *setter* metódu
@@ -424,10 +435,10 @@ Našťastie, Android podporuje pri fragmentoch históriu v podobe **back stack**
 
 Pri vytváraní transakcie stačí zavolať metódu `addToBackStack()` s parametrom `null`, čo zaručí, že výmena master fragmentu za detailový fragment bude rešpektovať históriu.
 
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.activity_main, detailFragment)
-                    .addToBackStack(null)
-                    .commit();
+    getFragmentManager().beginTransaction()
+            .replace(R.id.activity_main, detailFragment)
+            .addToBackStack(null)
+            .commit();
 	
 
 		
